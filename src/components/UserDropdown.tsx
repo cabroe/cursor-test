@@ -1,5 +1,6 @@
 import React from "react";
 import { useUiStore } from "../store/useUiStore";
+import { Link } from "react-router-dom";
 
 const UserDropdown: React.FC = () => {
   const { open, close, isOpen } = useUiStore();
@@ -35,14 +36,14 @@ const UserDropdown: React.FC = () => {
         </div>
       </a>
       <div className={"dropdown-menu dropdown-menu-end dropdown-menu-arrow" + (isOpen("userDropdown") ? " show" : "") }>
-        <a href="/profile" className="dropdown-item" onClick={handleDropdownClose}>Mein Profil</a>
-        <a href="/bearbeiten" className="dropdown-item" onClick={handleDropdownClose}>Bearbeiten</a>
-        <a href="/password" className="dropdown-item" onClick={handleDropdownClose}>Passwort</a>
-        <a href="/2fa" className="dropdown-item" onClick={handleDropdownClose}>Zwei-Faktor (2FA)</a>
-        <a href="/api" className="dropdown-item" onClick={handleDropdownClose}>API Zugang</a>
-        <a href="/settings" className="dropdown-item" onClick={handleDropdownClose}>Einstellungen</a>
+        <Link to="/profile" className="dropdown-item" onClick={handleDropdownClose}>Mein Profil</Link>
+        <Link to="/bearbeiten" className="dropdown-item" onClick={handleDropdownClose}>Bearbeiten</Link>
+        <Link to="/password" className="dropdown-item" onClick={handleDropdownClose}>Passwort</Link>
+        <Link to="/2fa" className="dropdown-item" onClick={handleDropdownClose}>Zwei-Faktor (2FA)</Link>
+        <Link to="/api" className="dropdown-item" onClick={handleDropdownClose}>API Zugang</Link>
+        <Link to="/settings" className="dropdown-item" onClick={handleDropdownClose}>Einstellungen</Link>
         <div className="dropdown-divider"></div>
-        <a href="/logout" className="dropdown-item" onClick={handleDropdownClose}>Abmelden</a>
+        <Link to="/logout" className="dropdown-item" onClick={handleDropdownClose}>Abmelden</Link>
       </div>
     </div>
   );

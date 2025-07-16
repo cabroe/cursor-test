@@ -4,9 +4,9 @@ import {
   useLocation,
   BrowserRouter as Router,
 } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
 import Times from "./pages/Times";
 import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard";
 import ModalDemo from "./pages/ModalDemo";
 import ToastDemo from "./pages/ToastDemo";
 import Sidebar from "./components/Sidebar";

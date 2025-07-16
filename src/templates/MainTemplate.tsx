@@ -22,17 +22,19 @@ function PageHeaderContent() {
 const MainTemplate: React.FC<MainTemplateProps> = ({ children }) => {
   return (
     <>
-      <Sidebar />
-      <HeaderWithRoute />
-      <div className="page-wrapper">
-        <div className="container-fluid">
-          <PageHeader>
-            <PageHeaderContent />
-          </PageHeader>
-        </div>
-        <div className="page-body">
+      <div className="page">
+        <Sidebar />
+        <HeaderWithRoute />
+        <div className="page-wrapper">
           <div className="container-fluid">
-            {children}
+            <PageHeader>
+              <PageHeaderContent />
+            </PageHeader>
+          </div>
+          <div className="page-body">
+            <div className="container-fluid">
+              {children}
+            </div>
           </div>
         </div>
       </div>

@@ -1,25 +1,26 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import PageHeader from "./PageHeader";
-import { pageTitles } from "../routes/pageTitles";
-import type { PageTitleEntry } from "../routes/pageTitles";
+import { pageTitles } from "../routes/routeConfig";
 
-function findPageEntry(pathname: string, entries: Record<string, PageTitleEntry>): PageTitleEntry | undefined {
-  for (const [key, entry] of Object.entries(entries)) {
-    if (key === pathname) return entry;
-    if (entry.children) {
-      const child = findPageEntry(pathname, entry.children);
-      if (child) return child;
-    }
-  }
-  return undefined;
+function findPageEntry(pathname: string, entries: Record<string, any>) {
+  return entries[pathname];
 }
 
 const PageHeaderWithRoute: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const page = findPageEntry(pathname, pageTitles) || { title: "", pretitle: "" };
-  return <PageHeader title={page.title} pretitle={page.pretitle} />;
+  return (
+    <PageHeader>
+      <div className="col">
+        <div className="text-body-secondary mt-1">
+          {page.pretitle && <div className="page-pretitle">{page.pretitle}</div>}
+        </div>
+        <h2 className="page-title">{page.title}</h2>
+      </div>
+    </PageHeader>
+  );
 };
 
 export default PageHeaderWithRoute; 

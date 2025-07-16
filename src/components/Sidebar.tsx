@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { pageTitles } from "../routes/pageTitles";
-import type { PageTitleEntry } from "../routes/pageTitles";
+import { pageTitles } from "../routes/routeConfig";
+import type { PageTitleEntry } from "../routes/routeConfig";
 import TicktacActions from "./TicktacActions";
 import RecentActivities from "./RecentActivities";
 import UserDropdown from "./UserDropdown";

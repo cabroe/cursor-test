@@ -2,23 +2,30 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import HeaderWithRoute from "./components/HeaderWithRoute";
-import PageHeaderWithRoute from "./components/PageHeaderWithRoute";
-import "./App.css";
+import PageHeader from "./components/PageHeader";
 import ModalDemo from "./pages/ModalDemo";
 import ToastDemo from "./pages/ToastDemo";
+import Home from "./pages/Home";
+import Times from "./pages/Times";
+import Settings from "./pages/Settings";
+import { getHeaderComponentForRoute } from "./utils/getHeaderComponentForRoute";
+import "./App.css";
 
-// Beispielseiten
-function Home() {
-  return <h1>Startseite</h1>;
-}
-function Zeiten() {
-  return <h1>Zeiten</h1>;
-}
-function Einstellungen() {
-  return <h1>Einstellungen</h1>;
+// PageHeaderContent ist für die dynamische Auswahl und Anzeige des passenden PageHeaders zuständig.
+// Sie liest anhand der aktuellen Route (pathname) aus der zentralen routeConfig (pageTitles) die passende Header-Komponente aus
+// und rendert diese im zentralen PageHeader. So bleibt die Header-Logik für alle Seiten flexibel und zentral wartbar.
+function PageHeaderContent() {
+  const location = useLocation();
+  const { pathname } = location;
+  const HeaderComponent = getHeaderComponentForRoute(pathname);
+  if (HeaderComponent) {
+    return <HeaderComponent />;
+  }
+  return null;
 }
 
 function App() {
@@ -28,14 +35,16 @@ function App() {
       <HeaderWithRoute />
       <div className="page-wrapper">
         <div className="container-fluid">
-          <PageHeaderWithRoute />
+          <PageHeader>
+            <PageHeaderContent />
+          </PageHeader>
         </div>
         <div className="page-body">
           <div className="container-fluid">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/zeiten" element={<Zeiten />} />
-              <Route path="/einstellungen" element={<Einstellungen />} />
+              <Route path="/times" element={<Times />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="/modal-demo" element={<ModalDemo />} />
               <Route path="/toast-demo" element={<ToastDemo />} />
             </Routes>

@@ -1,11 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { MemoryRouter } from "react-router-dom";
 import SettingsHeader from "./SettingsHeader";
 
 describe("SettingsHeader", () => {
   it("rendert den Titel Einstellungen", () => {
-    render(<SettingsHeader />);
-    expect(screen.getByText("Einstellungen")).toBeInTheDocument();
+    render(
+      <MemoryRouter>
+        <SettingsHeader />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole("heading", { name: "Einstellungen" })).toBeInTheDocument();
   });
 }); 

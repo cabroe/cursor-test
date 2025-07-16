@@ -12,12 +12,12 @@ const UserDropdown: React.FC = () => (
       </div>
     </a>
     <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-      <Link to="/profil" className="dropdown-item">Mein Profil</Link>
+      <Link to="/profile" className="dropdown-item">Mein Profil</Link>
       <Link to="/bearbeiten" className="dropdown-item">Bearbeiten</Link>
-      <Link to="/passwort" className="dropdown-item">Passwort</Link>
+      <Link to="/password" className="dropdown-item">Passwort</Link>
       <Link to="/2fa" className="dropdown-item">Zwei-Faktor (2FA)</Link>
       <Link to="/api" className="dropdown-item">API Zugang</Link>
-      <Link to="/einstellungen" className="dropdown-item">Einstellungen</Link>
+      <Link to="/settings" className="dropdown-item">Einstellungen</Link>
       <div className="dropdown-divider"></div>
       <Link to="/logout" className="dropdown-item">Abmelden</Link>
     </div>

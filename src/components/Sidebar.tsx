@@ -6,6 +6,25 @@ import { pageTitles } from "../routes/routeConfig";
 import { Link, useLocation } from "react-router-dom";
 import type { PageTitleEntry } from "../routes/routeConfig";
 
+// Hilfsfunktion zum Schließen des mobilen Menüs
+function closeSidebarMenu() {
+  const menu = document.getElementById("navbar-menu");
+  // Prüfe, ob wir im Mobile-Modus sind (Menü ist sichtbar und hat die Klasse 'show')
+  if (menu && menu.classList.contains("show")) {
+    menu.classList.remove("show");
+    // Optional: Backdrop entfernen, falls vorhanden (Bootstrap 5)
+    const backdrop = document.querySelector(".navbar-backdrop");
+    if (backdrop && backdrop.parentNode) {
+      backdrop.parentNode.removeChild(backdrop);
+    }
+    // Optional: ARIA-Attribute anpassen
+    const toggler = document.querySelector('[data-bs-target="#navbar-menu"]');
+    if (toggler) {
+      toggler.setAttribute("aria-expanded", "false");
+    }
+  }
+}
+
 // Tabler-typische Sidebar-Struktur
 const Sidebar: React.FC = () => {
   const location = useLocation();
@@ -32,13 +51,13 @@ const Sidebar: React.FC = () => {
         <div className="d-flex justify-content-start flex-fill d-lg-none">
           <h2 className="page-title d-lg-none ps-2 text-white">Dashboard</h2>
           <h1 className="navbar-brand d-none d-lg-inline-flex">
-            <Link to="/" title="Dashboard">
+            <Link to="/" title="Dashboard" onClick={closeSidebarMenu}>
               Schichtplaner
             </Link>
           </h1>
         </div>
         <h1 className="navbar-brand d-none d-lg-inline-flex">
-          <Link to="/" title="Dashboard" className="mt-2">
+          <Link to="/" title="Dashboard" className="mt-2" onClick={closeSidebarMenu}>
             Schichtplaner
           </Link>
         </h1>
@@ -72,7 +91,7 @@ const Sidebar: React.FC = () => {
                     </a>
                     <div className={`dropdown-menu${isSubmenuActive(entry.children) ? " show" : ""}`}>
                       {Object.entries(entry.children).map(([childPath, child]) => (
-                        <Link className={`dropdown-item${pathname === childPath ? " active" : ""}`} to={childPath} key={childPath}>
+                        <Link className={`dropdown-item${pathname === childPath ? " active" : ""}`} to={childPath} key={childPath} onClick={closeSidebarMenu}>
                           <span className="me-2"><i className={child.icon}></i></span>
                           {child.title}
                         </Link>
@@ -84,7 +103,7 @@ const Sidebar: React.FC = () => {
               // Normale Route
               return (
                 <li className={`nav-item${pathname === path ? " active" : ""}`} key={path}>
-                  <Link className="nav-link" to={path}>
+                  <Link className="nav-link" to={path} onClick={closeSidebarMenu}>
                     <span className="nav-link-icon d-md-none d-lg-inline-block text-center">
                       <i className={entry.icon}></i>
                     </span>

@@ -2,7 +2,6 @@ import React from "react";
 import { useUiStore } from "../store/useUiStore";
 
 interface RemoteModalProps {
-  show: boolean;
   title?: string;
   children?: React.ReactNode;
   footer?: React.ReactNode;

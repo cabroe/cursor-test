@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import UserDropdown from "./UserDropdown";
 import TicktacActions from "./TicktacActions";
 import RecentActivities from "./RecentActivities";
@@ -11,13 +11,19 @@ function closeSidebarMenu() {
   const menu = document.getElementById("navbar-menu");
   const toggler = document.querySelector('[data-bs-target="#navbar-menu"]');
   if (menu && menu.classList.contains("show")) {
-    menu.classList.remove("show");
-    // Backdrop entfernen
+    // Versuche, Bootstrap Collapse API zu nutzen
+    // @ts-ignore
+    if (window.bootstrap && window.bootstrap.Collapse) {
+      // @ts-ignore
+      const collapse = window.bootstrap.Collapse.getOrCreateInstance(menu);
+      collapse.hide();
+    } else {
+      menu.classList.remove("show");
+    }
     const backdrop = document.querySelector(".navbar-backdrop");
     if (backdrop && backdrop.parentNode) {
       backdrop.parentNode.removeChild(backdrop);
     }
-    // ARIA-Attribute und .collapsed-Klasse am Toggler setzen
     if (toggler) {
       toggler.setAttribute("aria-expanded", "false");
       toggler.classList.add("collapsed");
@@ -30,25 +36,31 @@ const Sidebar: React.FC = () => {
   const { pathname } = location;
   const togglerRef = useRef<HTMLButtonElement>(null);
 
+  useEffect(() => {
+    const menu = document.getElementById("navbar-menu");
+    const toggler = togglerRef.current;
+    if (!menu || !toggler) return;
+    function handleShown() {
+      if (!toggler) return;
+      toggler.classList.remove("collapsed");
+      toggler.setAttribute("aria-expanded", "true");
+    }
+    function handleHidden() {
+      if (!toggler) return;
+      toggler.classList.add("collapsed");
+      toggler.setAttribute("aria-expanded", "false");
+    }
+    menu.addEventListener("shown.bs.collapse", handleShown);
+    menu.addEventListener("hidden.bs.collapse", handleHidden);
+    return () => {
+      menu.removeEventListener("shown.bs.collapse", handleShown);
+      menu.removeEventListener("hidden.bs.collapse", handleHidden);
+    };
+  }, []);
+
   // Hilfsfunktion für Submenu-Active-State
   const isSubmenuActive = (children: Record<string, PageTitleEntry>) =>
     Object.keys(children).some((childPath) => pathname === childPath);
-
-  // Öffnen/Schließen des Menüs über den Toggler
-  function handleTogglerClick() {
-    const menu = document.getElementById("navbar-menu");
-    const toggler = togglerRef.current;
-    if (menu && toggler) {
-      const isOpen = menu.classList.contains("show");
-      if (isOpen) {
-        toggler.classList.add("collapsed");
-        toggler.setAttribute("aria-expanded", "false");
-      } else {
-        toggler.classList.remove("collapsed");
-        toggler.setAttribute("aria-expanded", "true");
-      }
-    }
-  }
 
   return (
     <aside className="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
@@ -61,7 +73,6 @@ const Sidebar: React.FC = () => {
           data-bs-target="#navbar-menu"
           aria-expanded="false"
           ref={togglerRef}
-          onClick={handleTogglerClick}
         >
           <span className="navbar-toggler-icon"></span>
         </button>

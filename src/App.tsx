@@ -1,17 +1,17 @@
 import {
-  BrowserRouter as Router,
-  Routes,
   Route,
+  Routes,
   useLocation,
+  BrowserRouter as Router,
 } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import HeaderWithRoute from "./components/HeaderWithRoute";
-import PageHeader from "./components/PageHeader";
-import ModalDemo from "./pages/ModalDemo";
-import ToastDemo from "./pages/ToastDemo";
 import Home from "./pages/Home";
 import Times from "./pages/Times";
 import Settings from "./pages/Settings";
+import ModalDemo from "./pages/ModalDemo";
+import ToastDemo from "./pages/ToastDemo";
+import Sidebar from "./components/Sidebar";
+import PageHeader from "./components/PageHeader";
+import HeaderWithRoute from "./components/HeaderWithRoute";
 import { getHeaderComponentForRoute } from "./utils/getHeaderComponentForRoute";
 import "./App.css";
 

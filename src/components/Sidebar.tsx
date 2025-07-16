@@ -1,10 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { pageTitles } from "../routes/routeConfig";
-import type { PageTitleEntry } from "../routes/routeConfig";
+import UserDropdown from "./UserDropdown";
 import TicktacActions from "./TicktacActions";
 import RecentActivities from "./RecentActivities";
-import UserDropdown from "./UserDropdown";
+import { pageTitles } from "../routes/routeConfig";
+import { Link, useLocation } from "react-router-dom";
+import type { PageTitleEntry } from "../routes/routeConfig";
 
 // Tabler-typische Sidebar-Struktur
 const Sidebar: React.FC = () => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useUiStore } from "../store/useUiStore";
 
 interface RemoteModalProps {
   show: boolean;
@@ -8,7 +9,15 @@ interface RemoteModalProps {
   onClose?: () => void;
 }
 
-const RemoteModal: React.FC<RemoteModalProps> = ({ show, title, children, footer, onClose }) => {
+const RemoteModal: React.FC<RemoteModalProps> = ({ title, children, footer, onClose }) => {
+  const { isOpen, close } = useUiStore();
+  const show = isOpen("remoteModal");
+
+  function handleClose() {
+    close();
+    if (onClose) onClose();
+  }
+
   return (
     <div
       className={`modal${show ? ' show d-block' : ''}`}
@@ -17,7 +26,7 @@ const RemoteModal: React.FC<RemoteModalProps> = ({ show, title, children, footer
       role="dialog"
       aria-labelledby="remote_modal_label"
       style={show ? { backgroundColor: 'rgba(0,0,0,0.5)' } : {}}
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div className="modal-dialog modal-lg" role="document" onClick={e => e.stopPropagation()}>
         <div className="modal-content">
@@ -28,7 +37,7 @@ const RemoteModal: React.FC<RemoteModalProps> = ({ show, title, children, footer
               className="btn-close btn-close-white"
               data-bs-dismiss="modal"
               aria-label="Schließen"
-              onClick={onClose}
+              onClick={handleClose}
             ></button>
           </div>
           <div className="modal-body">{children}</div>
@@ -36,7 +45,7 @@ const RemoteModal: React.FC<RemoteModalProps> = ({ show, title, children, footer
             {footer ? (
               footer
             ) : (
-              <button type="button" className="btn btn-cancel" data-bs-dismiss="modal" onClick={onClose}>
+              <button type="button" className="btn btn-cancel" data-bs-dismiss="modal" onClick={handleClose}>
                 Schließen
               </button>
             )}

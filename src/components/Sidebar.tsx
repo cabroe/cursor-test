@@ -5,49 +5,30 @@ import RecentActivities from "./RecentActivities";
 import { pageTitles } from "../routes/routeConfig";
 import { Link, useLocation } from "react-router-dom";
 import type { PageTitleEntry } from "../routes/routeConfig";
-
-// Hilfsfunktion zum Schließen des mobilen Menüs
-function closeSidebarMenu() {
-  const menu = document.getElementById("navbar-menu");
-  const toggler = document.querySelector('[data-bs-target="#navbar-menu"]');
-  if (menu && menu.classList.contains("show")) {
-    menu.classList.remove("show");
-    // Backdrop entfernen
-    const backdrop = document.querySelector(".navbar-backdrop");
-    if (backdrop && backdrop.parentNode) {
-      backdrop.parentNode.removeChild(backdrop);
-    }
-    // ARIA-Attribute und .collapsed-Klasse am Toggler setzen
-    if (toggler) {
-      toggler.setAttribute("aria-expanded", "false");
-      toggler.classList.add("collapsed");
-    }
-  }
-}
+import { useUiStore } from "../store/useUiStore";
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
   const togglerRef = useRef<HTMLButtonElement>(null);
+  const { open, close, isOpen } = useUiStore();
 
   // Hilfsfunktion für Submenu-Active-State
   const isSubmenuActive = (children: Record<string, PageTitleEntry>) =>
     Object.keys(children).some((childPath) => pathname === childPath);
 
-  // Öffnen/Schließen des Menüs über den Toggler
+  // Öffnen/Schließen des Menüs über den Toggler (global via Zustand)
   function handleTogglerClick() {
-    const menu = document.getElementById("navbar-menu");
-    const toggler = togglerRef.current;
-    if (menu && toggler) {
-      const isOpen = menu.classList.contains("show");
-      if (isOpen) {
-        toggler.classList.add("collapsed");
-        toggler.setAttribute("aria-expanded", "false");
-      } else {
-        toggler.classList.remove("collapsed");
-        toggler.setAttribute("aria-expanded", "true");
-      }
+    if (isOpen("sidebar")) {
+      close();
+    } else {
+      open("sidebar");
     }
+  }
+
+  // Schließen bei Link-Klick (z.B. Navigation)
+  function handleCloseSidebarMenu() {
+    close();
   }
 
   return (
@@ -55,11 +36,11 @@ const Sidebar: React.FC = () => {
       <div className="container-fluid">
         {/* Toggler für mobile Ansicht */}
         <button
-          className="navbar-toggler collapsed"
+          className={"navbar-toggler" + (isOpen("sidebar") ? "" : " collapsed")}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbar-menu"
-          aria-expanded="false"
+          aria-expanded={isOpen("sidebar") ? "true" : "false"}
           ref={togglerRef}
           onClick={handleTogglerClick}
         >
@@ -70,13 +51,13 @@ const Sidebar: React.FC = () => {
         <div className="d-flex justify-content-start flex-fill d-lg-none">
           <h2 className="page-title d-lg-none ps-2 text-white">Dashboard</h2>
           <h1 className="navbar-brand d-none d-lg-inline-flex">
-            <Link to="/" title="Dashboard" onClick={closeSidebarMenu}>
+            <Link to="/" title="Dashboard" onClick={handleCloseSidebarMenu}>
               Schichtplaner
             </Link>
           </h1>
         </div>
         <h1 className="navbar-brand d-none d-lg-inline-flex">
-          <Link to="/" title="Dashboard" className="mt-2" onClick={closeSidebarMenu}>
+          <Link to="/" title="Dashboard" className="mt-2" onClick={handleCloseSidebarMenu}>
             Schichtplaner
           </Link>
         </h1>
@@ -89,7 +70,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Hauptmenü */}
-        <div id="navbar-menu" className="collapse navbar-collapse">
+        <div id="navbar-menu" className={"collapse navbar-collapse" + (isOpen("sidebar") ? " show" : "") }>
           <ul className="navbar-nav pt-lg-3">
             {Object.entries(pageTitles).map(([path, entry]) => {
               if (entry.children) {
@@ -110,7 +91,7 @@ const Sidebar: React.FC = () => {
                     </a>
                     <div className={`dropdown-menu${isSubmenuActive(entry.children) ? " show" : ""}`}>
                       {Object.entries(entry.children).map(([childPath, child]) => (
-                        <Link className={`dropdown-item${pathname === childPath ? " active" : ""}`} to={childPath} key={childPath} onClick={closeSidebarMenu}>
+                        <Link className={`dropdown-item${pathname === childPath ? " active" : ""}`} to={childPath} key={childPath} onClick={handleCloseSidebarMenu}>
                           <span className="me-2"><i className={child.icon}></i></span>
                           {child.title}
                         </Link>
@@ -122,7 +103,7 @@ const Sidebar: React.FC = () => {
               // Normale Route
               return (
                 <li className={`nav-item${pathname === path ? " active" : ""}`} key={path}>
-                  <Link className="nav-link" to={path} onClick={closeSidebarMenu}>
+                  <Link className="nav-link" to={path} onClick={handleCloseSidebarMenu}>
                     <span className="nav-link-icon d-md-none d-lg-inline-block text-center">
                       <i className={entry.icon}></i>
                     </span>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import UserDropdown from "./UserDropdown";
 import TicktacActions from "./TicktacActions";
 import RecentActivities from "./RecentActivities";
@@ -9,40 +9,59 @@ import type { PageTitleEntry } from "../routes/routeConfig";
 // Hilfsfunktion zum Schließen des mobilen Menüs
 function closeSidebarMenu() {
   const menu = document.getElementById("navbar-menu");
-  // Prüfe, ob wir im Mobile-Modus sind (Menü ist sichtbar und hat die Klasse 'show')
+  const toggler = document.querySelector('[data-bs-target="#navbar-menu"]');
   if (menu && menu.classList.contains("show")) {
     menu.classList.remove("show");
-    // Optional: Backdrop entfernen, falls vorhanden (Bootstrap 5)
+    // Backdrop entfernen
     const backdrop = document.querySelector(".navbar-backdrop");
     if (backdrop && backdrop.parentNode) {
       backdrop.parentNode.removeChild(backdrop);
     }
-    // Optional: ARIA-Attribute anpassen
-    const toggler = document.querySelector('[data-bs-target="#navbar-menu"]');
+    // ARIA-Attribute und .collapsed-Klasse am Toggler setzen
     if (toggler) {
       toggler.setAttribute("aria-expanded", "false");
+      toggler.classList.add("collapsed");
     }
   }
 }
 
-// Tabler-typische Sidebar-Struktur
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const { pathname } = location;
+  const togglerRef = useRef<HTMLButtonElement>(null);
 
   // Hilfsfunktion für Submenu-Active-State
   const isSubmenuActive = (children: Record<string, PageTitleEntry>) =>
     Object.keys(children).some((childPath) => pathname === childPath);
+
+  // Öffnen/Schließen des Menüs über den Toggler
+  function handleTogglerClick() {
+    const menu = document.getElementById("navbar-menu");
+    const toggler = togglerRef.current;
+    if (menu && toggler) {
+      const isOpen = menu.classList.contains("show");
+      if (isOpen) {
+        toggler.classList.add("collapsed");
+        toggler.setAttribute("aria-expanded", "false");
+      } else {
+        toggler.classList.remove("collapsed");
+        toggler.setAttribute("aria-expanded", "true");
+      }
+    }
+  }
 
   return (
     <aside className="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
       <div className="container-fluid">
         {/* Toggler für mobile Ansicht */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler collapsed"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbar-menu"
+          aria-expanded="false"
+          ref={togglerRef}
+          onClick={handleTogglerClick}
         >
           <span className="navbar-toggler-icon"></span>
         </button>

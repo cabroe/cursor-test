@@ -27,7 +27,7 @@ describe("pageTitles", () => {
     expect(pageTitles["/demos"].children!["/toast-demo"].headerComponent).toBe(ToastDemoHeader);
   });
   it("hat überall title, pretitle und icon", () => {
-    for (const [key, entry] of Object.entries(pageTitles)) {
+    for (const entry of Object.values(pageTitles)) {
       expect(entry.title).toBeDefined();
       expect(entry.pretitle).toBeDefined();
       expect(entry.icon).toBeDefined();

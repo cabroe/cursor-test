@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const NotFound: React.FC = () => (
   <SimpleTemplate>
-    <div className="container container-tight py-4">
+    <div className="container container-tight py-4 d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <div className="empty">
         <div className="empty-header">404</div>
         <p className="empty-title">Page not found</p>

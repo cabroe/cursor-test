@@ -1,4 +1,4 @@
-import HomeHeader from "../pages/pageHeaders/HomeHeader";
+import DashboardHeader from "../pages/pageHeaders/DashboardHeader";
 import TimesHeader from "../pages/pageHeaders/TimesHeader";
 import SettingsHeader from "../pages/pageHeaders/SettingsHeader";
 import ModalDemoHeader from "../pages/pageHeaders/ModalDemoHeader";
@@ -14,10 +14,10 @@ export type PageTitleEntry = {
 
 export const pageTitles: Record<string, PageTitleEntry> = {
   "/": {
-    title: "Startseite",
+    title: "Dashboard",
     pretitle: "Willkommen",
-    icon: "fas fa-home",
-    headerComponent: HomeHeader,
+    icon: "fas fa-dashboard",
+    headerComponent: DashboardHeader,
   },
   "/times": {
     title: "Zeiten",

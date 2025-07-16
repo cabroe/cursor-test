@@ -4,7 +4,7 @@ import {
   useLocation,
   BrowserRouter as Router,
 } from "react-router-dom";
-import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 import Times from "./pages/Times";
 import Settings from "./pages/Settings";
 import ModalDemo from "./pages/ModalDemo";
@@ -42,7 +42,7 @@ function App() {
         <div className="page-body">
           <div className="container-fluid">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="/times" element={<Times />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/modal-demo" element={<ModalDemo />} />

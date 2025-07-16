@@ -1,0 +1,15 @@
+# cursor rules für dieses Projekt
+
+# 1. UI/Icons
+# - Verwende tabler.io für das Frontend-UI.
+# - Verwende Font Awesome Icons, nicht tabler/icons-react.
+#
+# 2. Sprache
+# - Antworte immer auf Deutsch.
+#
+# 3. Code-Qualität
+# - Halte dich an ESLint-Konfiguration.
+# - Schreibe sauberen, gut kommentierten TypeScript-Code.
+#
+# 4. Sonstiges
+# - Lies README.md für projektspezifische Hinweise. 

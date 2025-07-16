@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import ModalDemo from "./pages/ModalDemo";
 import ToastDemo from "./pages/ToastDemo";
 import MainTemplate from "./templates/MainTemplate";
+import NotFound from "./pages/NotFound";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/settings" element={<MainTemplate><Settings /></MainTemplate>} />
         <Route path="/modal-demo" element={<MainTemplate><ModalDemo /></MainTemplate>} />
         <Route path="/toast-demo" element={<MainTemplate><ToastDemo /></MainTemplate>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

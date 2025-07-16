@@ -17,6 +17,18 @@ const Sidebar: React.FC = () => {
   const isSubmenuActive = (children: Record<string, PageTitleEntry>) =>
     Object.keys(children).some((childPath) => pathname === childPath);
 
+  // Hilfsfunktion, um den aktuellen Titel anhand des Pfads zu finden (inkl. Children)
+  function findPageTitle(pathname: string, entries: Record<string, PageTitleEntry>): string {
+    for (const [key, entry] of Object.entries(entries)) {
+      if (key === pathname) return entry.title;
+      if (entry.children) {
+        const childTitle = findPageTitle(pathname, entry.children);
+        if (childTitle) return childTitle;
+      }
+    }
+    return "";
+  }
+
   // Öffnen/Schließen des Menüs über den Toggler (global via Zustand)
   function handleTogglerClick() {
     if (isOpen("sidebar")) {
@@ -30,6 +42,8 @@ const Sidebar: React.FC = () => {
   function handleCloseSidebarMenu() {
     close();
   }
+
+  const currentTitle = findPageTitle(pathname, pageTitles) || "";
 
   return (
     <aside className="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
@@ -49,7 +63,7 @@ const Sidebar: React.FC = () => {
 
         {/* Brand und Titel */}
         <div className="d-flex justify-content-start flex-fill d-lg-none">
-          <h2 className="page-title d-lg-none ps-2 text-white">Dashboard</h2>
+          <h2 className="page-title d-lg-none ps-2 text-white">{currentTitle}</h2>
           <h1 className="navbar-brand d-none d-lg-inline-flex">
             <Link to="/" title="Dashboard" onClick={handleCloseSidebarMenu}>
               Schichtplaner

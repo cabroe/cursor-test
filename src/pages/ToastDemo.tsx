@@ -6,7 +6,6 @@ const ToastDemo: React.FC = () => {
 
   return (
     <div>
-      <h2>Toast Demo</h2>
       <button className="btn btn-primary" onClick={() => setShow(true)}>
         Toast anzeigen
       </button>

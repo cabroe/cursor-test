@@ -1,5 +1,5 @@
 import React from "react";
-import RemoteModal from "../components/RemoteModal";
+import Modal from "../components/Modal";
 import { useUiStore } from "../store/useUiStore";
 
 const ModalDemo: React.FC = () => {
@@ -7,14 +7,13 @@ const ModalDemo: React.FC = () => {
 
   return (
     <div>
-      <h2>Modal Demo</h2>
       <button className="btn btn-primary" onClick={() => open("remoteModal")}>Modal öffnen</button>
-      <RemoteModal
+      <Modal
         title="Beispiel-Modal"
         onClose={close}
       >
         <p>Dies ist ein Beispielinhalt im Modal.</p>
-      </RemoteModal>
+      </Modal>
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import React from "react";
 import { useUiStore } from "../store/useUiStore";
 
-interface RemoteModalProps {
+interface ModalProps {
   title?: string;
   children?: React.ReactNode;
   footer?: React.ReactNode;
   onClose?: () => void;
 }
 
-const RemoteModal: React.FC<RemoteModalProps> = ({ title, children, footer, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ title, children, footer, onClose }) => {
   const { isOpen, close } = useUiStore();
   const show = isOpen("remoteModal");
 
@@ -55,4 +55,4 @@ const RemoteModal: React.FC<RemoteModalProps> = ({ title, children, footer, onCl
   );
 };
 
-export default RemoteModal; 
+export default Modal; 

@@ -1,6 +1,6 @@
 import React from "react";
-import { useUiStore } from "../store/useUiStore";
 import { Link } from "react-router-dom";
+import { useUiStore } from "../store/useUiStore";
 import { userMenuItems } from "../routes/routeConfig";
 
 const UserDropdown: React.FC = () => {

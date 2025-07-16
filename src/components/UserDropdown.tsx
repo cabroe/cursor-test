@@ -1,6 +1,7 @@
 import React from "react";
 import { useUiStore } from "../store/useUiStore";
 import { Link } from "react-router-dom";
+import { userMenuItems } from "../routes/routeConfig";
 
 const UserDropdown: React.FC = () => {
   const { open, close, isOpen } = useUiStore();
@@ -36,14 +37,15 @@ const UserDropdown: React.FC = () => {
         </div>
       </a>
       <div className={"dropdown-menu dropdown-menu-end dropdown-menu-arrow" + (isOpen("userDropdown") ? " show" : "") }>
-        <Link to="/profile" className="dropdown-item" onClick={handleDropdownClose}>Mein Profil</Link>
-        <Link to="/bearbeiten" className="dropdown-item" onClick={handleDropdownClose}>Bearbeiten</Link>
-        <Link to="/password" className="dropdown-item" onClick={handleDropdownClose}>Passwort</Link>
-        <Link to="/2fa" className="dropdown-item" onClick={handleDropdownClose}>Zwei-Faktor (2FA)</Link>
-        <Link to="/api" className="dropdown-item" onClick={handleDropdownClose}>API Zugang</Link>
-        <Link to="/settings" className="dropdown-item" onClick={handleDropdownClose}>Einstellungen</Link>
-        <div className="dropdown-divider"></div>
-        <Link to="/logout" className="dropdown-item" onClick={handleDropdownClose}>Abmelden</Link>
+        {userMenuItems.map((item, idx) =>
+          item.divider ? (
+            <div className="dropdown-divider" key={"divider-" + idx} />
+          ) : (
+            <Link to={item.to!} className="dropdown-item" onClick={handleDropdownClose} key={item.title}>
+              {item.title}
+            </Link>
+          )
+        )}
       </div>
     </div>
   );

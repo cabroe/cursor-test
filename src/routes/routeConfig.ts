@@ -50,4 +50,15 @@ export const pageTitles: Record<string, PageTitleEntry> = {
       },
     },
   },
-}; 
+};
+
+export const userMenuItems = [
+  { title: "Mein Profil", to: "/profile" },
+  { title: "Bearbeiten", to: "/bearbeiten" },
+  { title: "Passwort", to: "/password" },
+  { title: "Zwei-Faktor (2FA)", to: "/2fa" },
+  { title: "API Zugang", to: "/api" },
+  { title: "Einstellungen", to: "/settings" },
+  { divider: true },
+  { title: "Abmelden", to: "/logout" },
+]; 
